@@ -1,0 +1,28 @@
+注意事项：
+由于app相关的代码，涉及到公司的一些信息，所以暂时删除了。其次删除了项目中的case和page以及和公司有关的数据等
+有需要的同学下载后，请自行补充相关的数据。项目中涉及到的依赖包，请查阅requirements.txt 进行安装即可。
+
+以下23条 为本demo的注意事项。
+1.	建议一份excel表只有一个sheet页
+2.	Sheet表的名称不能默认，名称必须在所有的sheet表中唯一
+3.	一个sheet表可以处理一个功能版块，或一个业务模块，或一条业务线，或一条流程
+4.	Excel表的名称、sheet表的名称不可出现中文
+5.	Excel表中的单元格的值，要么为空(不输入任何值)，要么输入具体的值，不可只输入一个空格。
+6.	当一个用例 的 run_whether 为no时，表示该用例不需要运行，通常该用例 会被其他的用例所依赖。
+7.	当执行依赖的case时，不在考虑run_whether的值，均执行
+8.	目前rely_case_id单元格 只允许写一个case id，不允许写多个(后期可扩展)。
+9.	目前case 的数据依赖，可以进行多级依赖。如 test_10 依赖test_08，而test_08又依赖 test_04，test_04依赖test_02，类似这样的场景
+10.	case id 必须在所有的 case id中 唯一。保存cookie时，用到了case id。
+11.	print中的语句要加<p>，如print(‘<p>’,’这是一个示例’)或print(‘<p>这是一个示例’)。加<p>的原因在是html报告里能更好的换行，更好的展示数据。
+12.	在使用ddt.data(*excel_list)进行参数数据传递时，传入的excel sheet表中的数据 的类型为list，*list 解压为 dict
+13.	在解决数据依赖时，要使用 excel_dict方法来获取sheet表的数据。excel_dict获取的数据为双层dict
+14.	在base_web里，必须要将driver传出来，在写用例时，必须在 @classmethod 或setup()方法里，定义一个变量为driver，其值为base_web里的driver。否则无法进行自动截图
+15.	当用例的表头名称有所更改时，get_excel_title_mapping.py中 必须修改表头的值
+16.	ini配置文件中的各个key的值被修改后，也要修改read_config_data.py中的key值
+17.	在运行用例之前，必须要确保ini配置文件中内容均正确。
+18.	所有的print语句，必须要换成output_msg_to_html.py文件中的str_msg方法。该方法支持单线程，也支持多线程。即在输出日志时，做了自动判断是多线程还是单线程。
+19.	Output_msg_to_html 当为单线程执行脚本时，则直接调用print语句，进行日志输出。当为多线程时，会将日志写入到以当前线程id为名称的txt文件中。而以当前线程为名称的txt文件的创建，txt文件中内容的读取、txt文件中内容的清空、txt文件的删除以及当发生错误或失败时，这些错误的及失败的日志的写入均在BeautifulReport_MultiThreading.py脚本中控制的。
+20.	若要使用单线程运行脚本，则执行testsuite目录下的runall_single.py文件；若要进行多线程的执行，则执行testsuite目录下的runall_multithreading.py文件。
+21.	所有涉及到字符的中英文替换，请调用common.util.character_replace.py
+22.	涉及到日期的操作，请调用common.util.operation_strdate.py
+23.	所有的目录均要上传，即使是空目录也要上传，否则在执行脚本时候，有可能会报错。
